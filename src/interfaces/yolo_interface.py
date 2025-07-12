@@ -49,12 +49,12 @@ def load_yolo_model(weights_name='best.pt', repo_dir_name='ultralytics_yolov5_ma
         weights_path = resource_path(os.path.join('weights', weights_name))
         repo_dir = resource_path(repo_dir_name)
 
-        if not os.path.exists(weights_path):
-            logger.error(f"YOLOv5 权重文件未找到: {weights_path}")
-            return None
-        if not os.path.exists(repo_dir):
-            logger.error(f"YOLOv5 仓库目录未找到: {repo_dir}")
-            return None
+        # if not os.path.exists(weights_path):
+        #     logger.error(f"YOLOv5 权重文件未找到: {weights_path}")
+        #     return None
+        # if not os.path.exists(repo_dir):
+        #     logger.error(f"YOLOv5 仓库目录未找到: {repo_dir}")
+        #     return None
 
         logger.info(f"开始加载 YOLOv5 模型: {weights_path}")
         

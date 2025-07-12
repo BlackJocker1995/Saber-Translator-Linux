@@ -1,5 +1,6 @@
 {
   "custom_openai": [
+    "qwen3:30b",
     "deepseek-chat"
   ],
   "siliconflow": [

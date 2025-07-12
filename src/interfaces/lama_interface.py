@@ -221,16 +221,16 @@ if __name__ == '__main__':
             w, h = img.size
             # 在中间画一个白色矩形表示要修复的区域
             draw.rectangle([(w//4, h//4), (w*3//4, h*3//4)], fill=255)
-            mask_path = os.path.join(get_debug_dir(), "lama_interface_test_mask.png")
-            mask.save(mask_path)
+            mask_path = os.path.join(get_debug_dir(), "lama_interface_test_mask.webp")
+            mask.save(mask_path, format="WEBP", lossless=True)
             print(f"测试掩码已保存到: {mask_path}")
 
             print("开始 LAMA 修复测试...")
             repaired_image = clean_image_with_lama(img, mask)
 
             if repaired_image:
-                result_path = os.path.join(get_debug_dir(), "lama_interface_test_result.png")
-                repaired_image.save(result_path)
+                result_path = os.path.join(get_debug_dir(), "lama_interface_test_result.webp")
+                repaired_image.save(result_path, format="WEBP", lossless=True)
                 print(f"LAMA 修复测试成功，结果已保存到: {result_path}")
             else:
                 print("LAMA 修复测试失败。")

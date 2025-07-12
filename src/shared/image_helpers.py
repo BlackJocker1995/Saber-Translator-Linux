@@ -7,13 +7,13 @@ import io
 from PIL import Image, ImageDraw
 
 
-def image_to_base64(image, format="PNG"):
+def image_to_base64(image, format="WEBP"):
     """
-    将PIL图像对象转换为base64编码字符串
+    将PIL图像对象转换为base64编码字符串（默认WEBP格式）
     
     Args:
         image: PIL图像对象
-        format: 图像格式，默认为PNG
+        format: 图像格式，默认为WEBP
         
     Returns:
         base64编码的图像字符串

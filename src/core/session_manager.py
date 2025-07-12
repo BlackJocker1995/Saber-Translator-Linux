@@ -284,7 +284,7 @@ def load_session(session_name):
             if img_meta.get('hasOriginalData'):
                 original_b64 = _load_image_data(session_folder, idx, 'original')
                 if original_b64 is not None:
-                    loaded_img_state['originalDataURL'] = f"data:image/png;base64,{original_b64}" # 加上前缀
+                    loaded_img_state['originalDataURL'] = f"data:image/webp;base64,{original_b64}"
                 else:
                     logger.warning(f"会话 '{session_name}', 图像 {idx}: 标记有原始数据但文件加载失败。")
                     loaded_img_state['originalDataURL'] = None # 明确设为 None
@@ -296,7 +296,7 @@ def load_session(session_name):
             if img_meta.get('hasTranslatedData'):
                 translated_b64 = _load_image_data(session_folder, idx, 'translated')
                 if translated_b64 is not None:
-                    loaded_img_state['translatedDataURL'] = f"data:image/png;base64,{translated_b64}"
+                    loaded_img_state['translatedDataURL'] = f"data:image/webp;base64,{translated_b64}"
                 else:
                     logger.warning(f"会话 '{session_name}', 图像 {idx}: 标记有翻译数据但文件加载失败。")
                     loaded_img_state['translatedDataURL'] = None

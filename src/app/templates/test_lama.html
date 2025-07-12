@@ -171,7 +171,7 @@
                             
                             // 显示结果图像
                             if (response.result_image) {
-                                $('#resultImage').attr('src', 'data:image/png;base64,' + response.result_image).show();
+                                $('#resultImage').attr('src', 'data:image/webp;base64,' + response.result_image).show();
                             }
                         } else {
                             $('#status').removeClass('success').addClass('error')

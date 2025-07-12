@@ -572,8 +572,8 @@ if __name__ == '__main__':
                     
                     # 生成不重复的文件名
                     timestamp = int(time.time())
-                    save_path = os.path.join(debug_dir, f"test_processing_result_{timestamp}.png")
-                    
+                    save_path = os.path.join(debug_dir, f"test_processing_result_{timestamp}.webp")
+                                        
                     # 保存图片
                     result_img.save(save_path)
                     print(f"处理结果图像已保存到: {save_path}")
@@ -581,7 +581,7 @@ if __name__ == '__main__':
                     print(f"权限错误，无法保存图片: {e}")
                     # 尝试使用系统临时目录
                     import tempfile
-                    temp_file = os.path.join(tempfile.gettempdir(), f"comic_translator_result_{timestamp}.png")
+                    temp_file = os.path.join(tempfile.gettempdir(), f"comic_translator_result_{timestamp}.webp")
                     result_img.save(temp_file)
                     print(f"图片已保存到临时目录: {temp_file}")
                 except Exception as e:

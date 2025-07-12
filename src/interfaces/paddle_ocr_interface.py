@@ -319,7 +319,7 @@ class PaddleOCRHandler:
                     try:
                         debug_dir = get_debug_dir("paddle_ocr")
                         os.makedirs(debug_dir, exist_ok=True)
-                        cv2.imwrite(os.path.join(debug_dir, f"bubble_{i}.png"), bubble_img)
+                        cv2.imwrite(os.path.join(debug_dir, f"bubble_{i}.webp"), bubble_img)
                     except Exception as e:
                         logger.warning(f"保存调试图像失败: {e}")
                     

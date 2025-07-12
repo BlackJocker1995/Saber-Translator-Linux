@@ -326,7 +326,7 @@ async function callAiForProofreading(imageBase64Array, jsonData, provider, apiKe
         messages[1].content.push({
             type: "image_url",
             image_url: {
-                url: `data:image/png;base64,${imgBase64}`
+                url: `data:image/webp;base64,${imgBase64}`
             }
         });
     }

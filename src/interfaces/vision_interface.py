@@ -35,7 +35,7 @@ def _call_generic_openai_vision_api(image_base64, api_key, model_name, prompt, b
                 "role": "user",
                 "content": [
                     {"type": "text", "text": prompt},
-                    {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{image_base64}"}}
+                    {"type": "image_url", "image_url": {"url": f"data:image/webp;base64,{image_base64}"}}
                 ]
             }
         ]
@@ -161,7 +161,7 @@ def call_siliconflow_vision_api(image_base64, api_key, model_name, prompt, start
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": f"data:image/png;base64,{image_base64}"
+                            "url": f"data:image/webp;base64,{image_base64}"
                         }
                     }
                 ]

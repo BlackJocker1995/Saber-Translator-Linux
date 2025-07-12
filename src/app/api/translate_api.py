@@ -319,7 +319,7 @@ def translate_image():
         if clean_image:
             # 确保我们返回的是真正的干净图片
             buffered_clean = io.BytesIO()
-            clean_image.save(buffered_clean, format="PNG")
+            clean_image.save(buffered_clean, format="WEBP")
             clean_img_str = base64.b64encode(buffered_clean.getvalue()).decode('utf-8')
             print(f"成功获取到干净图片数据，大小: {len(clean_img_str)}")
         else:
@@ -328,7 +328,7 @@ def translate_image():
             clean_background = getattr(translated_image, '_clean_background', None)
             if clean_background:
                 buffered_clean = io.BytesIO()
-                clean_background.save(buffered_clean, format="PNG")
+                clean_background.save(buffered_clean, format="WEBP")
                 clean_img_str = base64.b64encode(buffered_clean.getvalue()).decode('utf-8')
                 print(f"使用clean_background作为替代，大小: {len(clean_img_str)}")
             else:
@@ -336,7 +336,7 @@ def translate_image():
                 clean_img_str = None
 
         buffered = io.BytesIO()
-        translated_image.save(buffered, format="PNG")
+        translated_image.save(buffered, format="WEBP")
         img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
         # 不再在后端自动保存模型历史，改由前端请求保存
@@ -572,7 +572,7 @@ def re_render_image():
 
         # 转换结果图像为Base64字符串
         buffered = io.BytesIO()
-        rendered_image.save(buffered, format="PNG")
+        rendered_image.save(buffered, format="WEBP")
         img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
         return jsonify({'rendered_image': img_str})
@@ -818,7 +818,7 @@ def re_render_single_bubble():
         # 将图像转换为base64字符串
         logger.info("将渲染后的图像转换为base64格式...")
         buffered = io.BytesIO()
-        rendered_image.save(buffered, format="PNG")
+        rendered_image.save(buffered, format="WEBP")
         img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
         logger.info(f"图像转换完成，base64字符串长度: {len(img_str)}")
         
@@ -983,7 +983,7 @@ def apply_settings_to_all_images():
                 
                 # 转换为base64字符串
                 buffered = io.BytesIO()
-                rendered_image.save(buffered, format="PNG")
+                rendered_image.save(buffered, format="WEBP")
                 img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
                 
                 rendered_images.append(img_str)

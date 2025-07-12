@@ -714,7 +714,7 @@ export function handleDeleteSelectedBoxClick() {
                 }
 
                 // 8. --- 获取新的图像数据并更新状态 ---
-                const newDataURL = canvas.toDataURL('image/png');
+                const newDataURL = canvas.toDataURL('image/webp');
                 console.log("生成新的 DataURL 完成。");
 
                 // 8.1 更新前端显示的图像
@@ -743,7 +743,7 @@ export function handleDeleteSelectedBoxClick() {
                         cleanImage.onload = () => { console.log("干净背景图加载完成"); resolve(); };
                         cleanImage.onerror = (err) => { console.error("干净背景图加载失败", err); reject(new Error("无法加载干净背景图")); };
                         // 从 state 获取干净背景数据，并加上 Data URL 前缀
-                        cleanImage.src = 'data:image/png;base64,' + state.getCurrentImage().cleanImageData;
+                        cleanImage.src = 'data:image/webp;base64,' + state.getCurrentImage().cleanImageData;
                     });
 
                     // originalImage 已经加载好了，所以只需要等待 cleanImage 加载
@@ -765,7 +765,7 @@ export function handleDeleteSelectedBoxClick() {
                                 console.log("已将原图区域绘制到 cleanImageData 的 Canvas 副本。");
 
                                 // 获取修改后的干净背景 DataURL
-                                const newCleanDataURL = cleanCanvas.toDataURL('image/png');
+                                const newCleanDataURL = cleanCanvas.toDataURL('image/webp');
                                 // 更新 state 中的 cleanImageData (存储时不带前缀)
                                 state.updateCurrentImageProperty('cleanImageData', newCleanDataURL.split(',')[1]);
                                 console.log("已更新 state 中的 cleanImageData。");
@@ -919,7 +919,7 @@ export function handleUseManualBoxesClick() {
             
             if (response.success) {
                 // 更新当前图片的翻译结果数据
-                currentImage.translatedDataURL = `data:image/png;base64,${response.translated_image}`;
+                currentImage.translatedDataURL = `data:image/webp;base64,${response.translated_image}`;
                 currentImage.cleanImageData = response.clean_background_image || null;
                 currentImage.bubbleCoords = response.bubble_coords || state.manualBubbleCoords;
                 currentImage.bubbleTexts = response.translated_texts || [];

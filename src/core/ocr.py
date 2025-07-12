@@ -173,7 +173,7 @@ def recognize_text_in_bubbles(image_pil, bubble_coords, source_language='japan',
                     # 保存调试图像 (可选)
                     try:
                         debug_dir = get_debug_dir("ocr_bubbles")
-                        bubble_img_pil.save(os.path.join(debug_dir, f"bubble_{i}_{source_language}_baidu.png"))
+                        bubble_img_pil.save(os.path.join(debug_dir, f"bubble_{i}_{source_language}_baidu.webp"), format="WEBP")
                     except Exception as save_e:
                         logger.warning(f"保存 OCR 调试气泡图像失败: {save_e}")
                     
@@ -258,7 +258,7 @@ def recognize_text_in_bubbles(image_pil, bubble_coords, source_language='japan',
                     # 保存调试图像 (可选)
                     try:
                         debug_dir = get_debug_dir("ocr_bubbles")
-                        bubble_img_pil.save(os.path.join(debug_dir, f"bubble_{i}_{source_language}.png"))
+                        bubble_img_pil.save(os.path.join(debug_dir, f"bubble_{i}_{source_language}.webp"), format="WEBP")
                         logger.debug(f"已保存气泡 {i} 的调试图像")
                     except Exception as save_e:
                         logger.warning(f"保存 OCR 调试气泡图像失败: {save_e}")
@@ -306,7 +306,7 @@ def recognize_text_in_bubbles(image_pil, bubble_coords, source_language='japan',
                         # 保存调试图像
                         try:
                             debug_dir = get_debug_dir("ocr_bubbles")
-                            bubble_img_pil.save(os.path.join(debug_dir, f"bubble_{i}_{source_language}_ai_vision.png"))
+                            bubble_img_pil.save(os.path.join(debug_dir, f"bubble_{i}_{source_language}_ai_vision.webp"), format="WEBP")
                         except Exception as save_e:
                             logger.warning(f"保存 AI视觉OCR 调试气泡图像失败: {save_e}")
                         

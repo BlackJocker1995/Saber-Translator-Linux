@@ -89,7 +89,7 @@ if __name__ == '__main__':
                 print(f"将提取的图片保存到: {save_dir}")
                 for i, img in enumerate(extracted_images):
                     try:
-                        img.save(os.path.join(save_dir, f"extracted_image_{i+1}.png"))
+                        img.save(os.path.join(save_dir, f"extracted_image_{i+1}.webp"), format="WEBP")
                     except Exception as save_e:
                         print(f"  保存图片 {i+1} 失败: {save_e}")
         except Exception as e:

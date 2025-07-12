@@ -263,7 +263,7 @@ export function reRenderFullImage(fromAutoToManual = false, silentMode = false) 
             // 1. 确定最原始的干净背景 (original 或 cleanImageData)
             let pristineBackgroundSrc;
             if (currentImage.cleanImageData) {
-                pristineBackgroundSrc = 'data:image/png;base64,' + currentImage.cleanImageData;
+                pristineBackgroundSrc = 'data:image/webp;base64,' + currentImage.cleanImageData;
                 console.log("reRenderFullImage: 使用 cleanImageData 作为原始干净背景。");
             } else if (currentImage.originalDataURL) {
                 pristineBackgroundSrc = currentImage.originalDataURL;
@@ -347,7 +347,7 @@ export function reRenderFullImage(fromAutoToManual = false, silentMode = false) 
                     console.log("reRenderFullImage: 已在前端应用图片的全局填充色。");
                 }
                 
-                preFilledBackgroundBase64 = canvas.toDataURL('image/png').split(',')[1];
+                preFilledBackgroundBase64 = canvas.toDataURL('image/webp').split(',')[1];
             }
 
             backendShouldInpaint = false;
@@ -497,7 +497,7 @@ export function reRenderFullImage(fromAutoToManual = false, silentMode = false) 
                     ui.clearGeneralMessageById(loadingMessageId);
                 }
                 if (response.rendered_image) {
-                    state.updateCurrentImageProperty('translatedDataURL', 'data:image/png;base64,' + response.rendered_image);
+                    state.updateCurrentImageProperty('translatedDataURL', 'data:image/webp;base64,' + response.rendered_image);
                     // **重要**：如果前端成功预填充了背景，那么这个预填充的背景应该成为新的 cleanImageData
                     // 这样，如果用户接下来修改其他文本样式（不改变填充色），可以基于这个最新的背景重绘
                     if (preFilledBackgroundBase64) {
@@ -644,7 +644,7 @@ function ensureCleanBackground() {
                     for (const [x1, y1, x2, y2] of currentImage.bubbleCoords) {
                         ctx.fillRect(x1, y1, x2 - x1 + 1, y2 - y1 + 1);
                     }
-                    const tempCleanImage = canvas.toDataURL('image/png').split(',')[1];
+                    const tempCleanImage = canvas.toDataURL('image/webp').split(',')[1];
                     currentImage._tempCleanImage = tempCleanImage;
                     console.log("成功创建临时干净背景 (纯色填充)");
                 } catch (e) { console.error("创建临时干净背景 Canvas 操作失败:", e); }

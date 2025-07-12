@@ -68,12 +68,12 @@ export async function reRenderWithNewFillColor(newFillColor) {
         let baseImageSrcToFill;
         // 优先使用已有的 cleanImageData，因为它代表了最干净的无文本背景
         if (currentImage.cleanImageData) {
-            baseImageSrcToFill = 'data:image/png;base64,' + currentImage.cleanImageData;
+            baseImageSrcToFill = 'data:image/webp;base64,' + currentImage.cleanImageData;
             console.log("使用 cleanImageData 作为填充基础");
         }
         // 其次是 _tempCleanImage (可能是之前修复或填充的结果)
         else if (currentImage._tempCleanImage) {
-            baseImageSrcToFill = 'data:image/png;base64,' + currentImage._tempCleanImage;
+            baseImageSrcToFill = 'data:image/webp;base64,' + currentImage._tempCleanImage;
             console.log("使用 _tempCleanImage 作为填充基础");
         }
         // 再次是原始图像，因为翻译图可能已经有旧的填充色或文字
@@ -108,7 +108,7 @@ export async function reRenderWithNewFillColor(newFillColor) {
         });
 
         // 4. 获取填充后的图像数据 (这将作为新的"干净背景"传递给渲染API)
-        const newFilledCleanBgBase64 = canvas.toDataURL('image/png').split(',')[1];
+        const newFilledCleanBgBase64 = canvas.toDataURL('image/').split(',')[1];
 
         // 5. 更新当前图片的 fillColor 状态，并临时设置 _tempCleanImageForFill
         state.updateCurrentImageProperty('fillColor', newFillColor);
@@ -646,7 +646,7 @@ function processPDFFiles(pdfFiles) { // 私有
                 .then(response => {
                     if (response.images && response.images.length > 0) {
                         response.images.forEach((imageData, idx) => {
-                            const originalDataURL = "data:image/png;base64," + imageData;
+                            const originalDataURL = "data:image/webp;base64," + imageData;
                             const pdfFileName = `${file.name}_页面${idx+1}`;
                             state.addImage({
                                 originalDataURL: originalDataURL,
@@ -953,7 +953,7 @@ export function translateCurrentImage() {
                 ui.hideTranslatingIndicator(state.currentImageIndex);
 
                 // 更新当前图片状态
-                state.updateCurrentImageProperty('translatedDataURL', 'data:image/png;base64,' + response.translated_image);
+                state.updateCurrentImageProperty('translatedDataURL', 'data:image/webp;base64,' + response.translated_image);
                 state.updateCurrentImageProperty('cleanImageData', response.clean_image);
                 state.updateCurrentImageProperty('bubbleTexts', response.bubble_texts);
                 // **重要**: 更新 bubbleCoords 为本次使用的坐标 (无论是手动还是自动检测返回的)
@@ -1218,7 +1218,7 @@ export function translateAllImages() {
 
                 // --- 更新特定索引的图片状态 ---
                 // 使用 state.js 中的辅助函数或直接修改 state.images[currentIndex]
-                state.updateImagePropertyByIndex(currentIndex, 'translatedDataURL', 'data:image/png;base64,' + response.translated_image);
+                state.updateImagePropertyByIndex(currentIndex, 'translatedDataURL', 'data:image/webp;base64,' + response.translated_image);
                 state.updateImagePropertyByIndex(currentIndex, 'cleanImageData', response.clean_image);
                 state.updateImagePropertyByIndex(currentIndex, 'bubbleTexts', response.bubble_texts);
                 state.updateImagePropertyByIndex(currentIndex, 'bubbleCoords', response.bubble_coords);
@@ -1320,14 +1320,14 @@ export function downloadCurrentImage() {
                 for (let i = 0; i < slice.length; i++) byteNumbers[i] = slice.charCodeAt(i);
                 byteArrays.push(new Uint8Array(byteNumbers));
             }
-            const blob = new Blob(byteArrays, {type: 'image/png'});
+            const blob = new Blob(byteArrays, {type: 'image/webp'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            let fileName = currentImage.fileName || `image_${state.currentImageIndex}.png`;
+            let fileName = currentImage.fileName || `image_${state.currentImageIndex}.webp`;
             // 为已翻译和未翻译的图片使用不同前缀
             const prefix = currentImage.translatedDataURL ? 'translated' : 'original';
-            fileName = `${prefix}_${fileName.replace(/\.[^/.]+$/, "")}.png`;
+            fileName = `${prefix}_${fileName.replace(/\.[^/.]+$/, "")}.webp`;
             a.download = fileName;
             document.body.appendChild(a);
             a.click();
@@ -1667,7 +1667,7 @@ export function removeBubbleTextOnly() {
                 ui.hideTranslatingIndicator(state.currentImageIndex);
 
                 // 更新当前图片对象
-                currentImage.translatedDataURL = 'data:image/png;base64,' + response.translated_image;
+                currentImage.translatedDataURL = 'data:image/webp;base64,' + response.translated_image;
                 currentImage.cleanImageData = response.clean_image;
                 
                 // 确保bubbleTexts和bubbleCoords长度匹配
@@ -1969,7 +1969,7 @@ export function removeAllBubblesText() {
                 ui.hideTranslatingIndicator(currentIndex);
 
                 // --- 更新特定索引的图片状态 ---
-                state.updateImagePropertyByIndex(currentIndex, 'translatedDataURL', 'data:image/png;base64,' + response.translated_image);
+                state.updateImagePropertyByIndex(currentIndex, 'translatedDataURL', 'data:image/webp;base64,' + response.translated_image);
                 state.updateImagePropertyByIndex(currentIndex, 'cleanImageData', response.clean_image);
                 
                 // 确保bubbleTexts和bubbleCoords长度匹配
