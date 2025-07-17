@@ -1080,7 +1080,7 @@ def download_all_images_api():
                 # 保存图片到临时目录
                 filename = f"image_{i:03d}.webp"
                 filepath = os.path.join(temp_dir, filename)
-                img.save(filepath, format="WEBP")
+                img.save(filepath, format="WEBP",lossless=True)
                 saved_files.append(filepath)
                 logger.info(f"已保存图片 {i+1}/{len(image_data_list)}: {filename}")
             except Exception as e:

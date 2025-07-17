@@ -166,12 +166,12 @@ def inpaint_bubbles(image_pil, bubble_coords, method='solid', fill_color=constan
     try:
         debug_dir = get_debug_dir("inpainting_results")
         final_method = method if inpainting_successful else 'solid_fallback'
-        result_img.save(os.path.join(debug_dir, f"inpainted_result_{final_method}.webp"), format="WEBP")
+        result_img.save(os.path.join(debug_dir, f"inpainted_result_{final_method}.webp"), format="WEBP",lossless=True)
         if clean_background:
             # 将干净背景标记附加到主结果图像对象上
             setattr(result_img, '_clean_background', clean_background)
             setattr(result_img, '_clean_image', clean_background)
-            clean_background.save(os.path.join(debug_dir, f"clean_background_{final_method}.webp"), format="WEBP")
+            clean_background.save(os.path.join(debug_dir, f"clean_background_{final_method}.webp"), format="WEBP",lossless=True)
     except Exception as save_e:
         logger.warning(f"保存修复结果调试图像失败: {save_e}")
 

@@ -111,6 +111,8 @@ export async function startHqTranslation() {
         // 5. 解析合并的JSON结果并导入
         ui.showGeneralMessage("翻译完成，正在导入翻译结果...", "info", false);
         ui.updateProgressBar(90, '导入翻译结果...');
+        // 兼容单对象和数组
+        if (!Array.isArray(allBatchResults)) allBatchResults = [allBatchResults];
         await importTranslationResult(mergeJsonResults(allBatchResults));
         
         // 完成
@@ -535,7 +537,50 @@ async function callAiForTranslation(imageBase64Array, jsonData, provider, apiKey
 
     // 如果强制JSON输出，添加response_format参数
     if (forceJsonOutput) {
-        apiParams.response_format = { type: "json_object" };
+        switch (provider) { 
+            case 'custom_openai':
+            apiParams.response_format = {
+                type: "json_schema",
+                json_schema: {
+                    name: "manga_translation_result",
+                    title: "Manga Translation Result List",
+                    description: "A list of manga page translation results, each with imageIndex and bubbles.",
+                    schema: {
+                        type: "array",
+                        title: "Manga Translation Result Array",
+                        description: "Each item is a manga page translation result.",
+                        items: {
+                            type: "object",
+                            title: "Manga Page Translation",
+                            description: "Translation result for a single manga page.",
+                            properties: {
+                                imageIndex: { type: "integer", title: "Image Index", description: "Page index" },
+                                bubbles: {
+                                    type: "array",
+                                    title: "Bubbles",
+                                    description: "Speech bubbles on the page",
+                                    items: {
+                                        type: "object",
+                                        title: "Bubble",
+                                        description: "A single speech bubble",
+                                        properties: {
+                                            bubbleIndex: { type: "integer", title: "Bubble Index", description: "Bubble order" },
+                                            original: { type: "string", title: "Original Text", description: "Original text in bubble" },
+                                            translated: { type: "string", title: "Translated Text", description: "Translated text" }
+                                        },
+                                        required: ["bubbleIndex", "original", "translated"]
+                                    }
+                                }
+                            },
+                            required: ["imageIndex", "bubbles"]
+                        }
+                    }
+                }
+            };
+            break;
+        default:
+            apiParams.response_format = { type: "json_object" };
+        }
         console.log("已启用强制JSON输出模式");
     }
 
@@ -599,14 +644,15 @@ async function callAiForTranslation(imageBase64Array, jsonData, provider, apiKey
             const errorText = await response.text();
             throw new Error(`API请求失败: ${response.status} ${errorText}`);
         }
-
+        
+        // 校验结构化JSON返回
         const result = await response.json();
+        console.log("原始内容:", result.choices[0].message.content);
+    
 
         // 提取AI返回的文本
         if (result.choices && result.choices.length > 0) {
             let content = result.choices[0].message.content;
-
-            // 如果是强制JSON输出，则内容应该已经是JSON了
             if (forceJsonOutput) {
                 try {
                     // 直接解析AI返回的JSON
@@ -649,10 +695,12 @@ function mergeJsonResults(batchResults) {
     if (!batchResults || batchResults.length === 0) {
         return [];
     }
-    
+    // 兼容：如果 batchResults 是图片对象数组（即第一个元素有 imageIndex），则包裹为批次数组
+    if (batchResults.length > 0 && batchResults[0] && typeof batchResults[0].imageIndex === "number") {
+        batchResults = [batchResults];
+    }
     // 合并所有批次结果
     const mergedResult = [];
-    
     // 遍历每个批次结果
     for (const batchResult of batchResults) {
         // 遍历批次中的每个图片数据
@@ -661,10 +709,8 @@ function mergeJsonResults(batchResults) {
             mergedResult.push(imageData);
         }
     }
-    
     // 按imageIndex排序
     mergedResult.sort((a, b) => a.imageIndex - b.imageIndex);
-    
     return mergedResult;
 }
 
